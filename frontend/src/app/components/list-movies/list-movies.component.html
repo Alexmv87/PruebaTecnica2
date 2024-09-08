@@ -1,0 +1,32 @@
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="container">
+    <div class="title">
+        <h4>Listado de Peliculas</h4>
+        <button type="button" class="btn btn-primary" routerLink="/add">Agregar Pelicula</button>
+    </div>
+
+    <div *ngIf="listMovies.length > 0" >
+          
+      <div *ngFor="let item of listMovies" class="card col-lg-3 text-center ms-4 mt-4">
+        <div class="row">
+          <p class="card-header">Titulo: {{item.Titulo}}</p>
+          <button routerLink="/edit/{{ item._id }}" type="button" class="btn btn-outline-info">Editar</button>
+          <button (click)="deleteProduct(item._id)" type="button" class="btn btn-outline-danger btn-sm">Eliminar</button>
+          
+        </div>       
+              
+        <div class="card-body" style="height: 500px;">
+          <img src="{{item.Image}}" alt="" height="200" width="200">
+          <p class="card-text">{{item.Sinopsis}}</p>
+        </div>
+        
+        <div class="card-footer text-muted">
+          {{item.Categorias}}
+        </div>
+      </div>
+      
+    </div>      
+      
+      <h5 *ngIf="listMovies.length == 0">No hay peliculas para mostrar</h5>
+</div>
+

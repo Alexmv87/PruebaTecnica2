@@ -1,0 +1,19 @@
+version: '2.29.2'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - '8080:8080'
+    depends_on:
+      - database
+
+  frontend:
+    build: ./frontend
+    ports:
+      - '80:4200'
+    depends_on:
+      - backend
+  database:
+    image: mongo:7.0.14
+    

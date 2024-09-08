@@ -1,0 +1,41 @@
+<app-progress-bar *ngIf="loading"></app-progress-bar>
+<div *ngIf="!loading" class="row mt-1">
+    <div class="col-lg-4 offset-lg-4">
+        <div class="card text-white bg-secondary mb-3" style="max-width: 25rem;">
+            <div class="card-header text-center">{{ operacion }} Película</div>
+            <div class="card-body">
+                <form [formGroup]="form" (ngSubmit)="addProduct()">
+                    <input formControlName="Titulo" type="text" class="form-control" placeholder="Ingrese titulo">
+                    <span *ngIf="form.get('Titulo')?.hasError('required') && form.get('Titulo')?.touched">
+                        El campo Titulo es <strong>requerido</strong>
+                    </span>
+                    <input formControlName="Sinopsis" type="text" class="form-control mt-2" placeholder="Ingrese sinopsis">
+                    <span *ngIf="form.get('Sinopsis')?.hasError('required') && form.get('Sinopsis')?.touched">
+                        El campo Sinopsis es <strong>requerido</strong>
+                    </span>
+                    <input formControlName="Actores" type="text" class="form-control mt-2" placeholder="Ingrese Actores">
+                    <span *ngIf="form.get('Actores')?.hasError('required') && form.get('Actores')?.touched">
+                        El campo Actores es <strong>requerido</strong>
+                    </span>
+                    <input formControlName="Categorias" type="text" class="form-control mt-2" placeholder="Ingrese Categorias">
+                    <span *ngIf="form.get('Categorias')?.hasError('required') && form.get('Categorias')?.touched">
+                        El campo categoria es <strong>requerido</strong>
+                    </span>
+                    <label for="formFile" class="form-label mt-4">Seleccione la imagen</label>
+                    <input class="form-control" type="file" formControlName="Imagen" (change)="subirImagen($event)">
+                    <span *ngIf="form.get('Imagen')?.hasError('required') && form.get('Imagen')?.touched">
+                        El campo categoria es <strong>requerido</strong>
+                    </span>
+                    <div class="row mt-2 text-center">
+                        <div class="col-lg-6">
+                            <button routerLink="/" type="button" class="btn btn-secondary">Volver</button>
+                        </div>
+                        <div class="col-lg-6">
+                            <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Aceptar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
