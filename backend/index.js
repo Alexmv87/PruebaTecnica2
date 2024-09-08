@@ -14,7 +14,7 @@ const movieSchema = new mongoose.Schema({
 })
 const movie = mongoose.model("movies", movieSchema)
 
-mongoose.connect('mongodb://database:27017/Movies')
+mongoose.connect('mongodb://127.0.0.1:27017/Movies')
 const router = express.Router()
 
 router.get("/",async (req,res)=>{

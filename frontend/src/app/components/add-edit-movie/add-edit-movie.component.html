@@ -1,7 +1,7 @@
 <app-progress-bar *ngIf="loading"></app-progress-bar>
 <div *ngIf="!loading" class="row mt-1">
     <div class="col-lg-4 offset-lg-4">
-        <div class="card text-white bg-secondary mb-3" style="max-width: 25rem;">
+        <div class="card text-white bg-secondary mb-3" style="max-width: 60rem;">
             <div class="card-header text-center">{{ operacion }} Película</div>
             <div class="card-body">
                 <form [formGroup]="form" (ngSubmit)="addProduct()">
@@ -9,7 +9,8 @@
                     <span *ngIf="form.get('Titulo')?.hasError('required') && form.get('Titulo')?.touched">
                         El campo Titulo es <strong>requerido</strong>
                     </span>
-                    <input formControlName="Sinopsis" type="text" class="form-control mt-2" placeholder="Ingrese sinopsis">
+                    <textarea formControlName="Sinopsis"  class="form-control mt-2" placeholder="Ingrese sinopsis" rows="5">
+                        </textarea>
                     <span *ngIf="form.get('Sinopsis')?.hasError('required') && form.get('Sinopsis')?.touched">
                         El campo Sinopsis es <strong>requerido</strong>
                     </span>
