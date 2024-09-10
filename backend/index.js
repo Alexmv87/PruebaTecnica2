@@ -1,20 +1,8 @@
 const express = require('express')
 const app = express()
-const mongoose = require('mongoose')
 const cors = require('cors')
-const movieSchema = new mongoose.Schema({
-    Titulo: {type: String},
-    Sinopsis: {type: String},
-    Actores: [{type: String}],
-    Image: {type: String},
-    Categorias: [{type: String}]
-},
-{
-    timestamps:true
-})
-const movie = mongoose.model("movies", movieSchema)
-
-mongoose.connect('mongodb://127.0.0.1:27017/Movies')
+const modelos = require('./Models/movies.js')
+const movie = modelos.movie
 const router = express.Router()
 
 router.get("/",async (req,res)=>{
