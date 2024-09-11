@@ -2,9 +2,9 @@ export interface Movie {
     _id?: string;
     Titulo: string;
     Sinopsis: string;
-    Actores: [string];
+    Actores: string;
     Image: string;
-    Categorias: [string];
+    Categorias: string[];
     createdAt?: Date;
     updatedAt?: Date;
     __v?: number

@@ -6,7 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { throwIfEmpty } from 'rxjs';
 import { Movie } from 'src/app/interfaces/movie';
 import { ProductService } from 'src/app/services/movie.service';
-
+import { CategoriaComponent } from '../categoria/categoria.component';
+import { CategoriasService } from '../../services/categorias.service'
 @Component({
   selector: 'app-add-edit-movie',
   templateUrl: './add-edit-movie.component.html',
@@ -14,14 +15,17 @@ import { ProductService } from 'src/app/services/movie.service';
 })
 
 export class AddEditMovieComponent implements OnInit {
-  form: FormGroup;
-  
+  form: FormGroup;  
+  valid: boolean = false
   loading: boolean = false;
   id: string | null;
   operacion: string = 'Agregar ';
-  Imagen: string;
+  Imagen: string = "";
+  conIma:boolean = false
+  
   constructor(private fb: FormBuilder,
     private _productService: ProductService,
+    private _catService:CategoriasService,
     private Sanitazer: DomSanitizer,
     private router: Router,
     private toastr: ToastrService,
@@ -30,26 +34,47 @@ export class AddEditMovieComponent implements OnInit {
       Titulo: ['', Validators.required],
       Sinopsis: ['', Validators.required],
       Actores: ['', Validators.required],
-      Categorias: ['', Validators.required],
-      Imagen: ['', Validators.required]
+      Categorias: [''],
+      Imagen: ['']
     })
-    this.id = aRouter.snapshot.paramMap.get('id')
-    this.Imagen = "";
+    this.id = aRouter.snapshot.paramMap.get('id')    
   }
   
   ngOnInit(): void {
 
-    if (this.id) {
-      // Es editar
+    if (this.id) {      
       this.operacion = 'Editar ';
       this.getProduct(this.id);
-
     }
+    else{
+      this._catService.listado = []
+      this.Imagen = "";
+    }
+    this.valid = (this.form.valid && this.conIma && this._catService.listado.length>0)
   }
+  
+  AgregaCategoria(){
+    if(this.form.get("Categorias")?.value != ""){
+      this._catService.AgregarCategoria(this.form.get("Categorias")?.value)
+    }
+    this.form.get("Categorias")?.reset()   
+    this.valid = (this.form.valid && this.conIma && this._catService.listado.length>0) 
+    console.log(this.valid)
+  }
+ 
 
   subirImagen(event:any){
     const Archivo = event.target.files
-    const datos = this.extraerB64(Archivo)
+    this.extraerB64(Archivo)
+    
+  }
+  validar(){
+    if(this.form.valid && this.conIma && this._catService.listado.length >0){
+      this.addProduct()
+    }
+    else{
+      alert("aún no se ha completado el formulario")
+    }
     
   }
 
@@ -59,44 +84,42 @@ export class AddEditMovieComponent implements OnInit {
 
     reader.onload = () => {
       const base64String = reader.result as string;
-      this.Imagen = `${base64String}`;      
+      this.Imagen = `${base64String}`;  
+      this.conIma = true    
+      
     };
-
-    reader.readAsDataURL(file);
-    
+    reader.readAsDataURL(file);    
   }
-
-
 
   getProduct(id: string|null) {
     this.loading = true;
     this._productService.getMovie(id).subscribe((data: Movie) => {
       this.loading = false;
+      this._catService.listado = data.Categorias
       this.form.setValue({
         Titulo: data.Titulo,
         Sinopsis: data.Sinopsis,
         Actores: data.Actores[0],
-        Categorias: data.Categorias[0],
+        Categorias: "",
         Imagen:""
       })
+      this.Imagen = data.Image
+      this.conIma = true 
     })
   }
 
   addProduct() {
-    
-    console.log(this.form.get("Imagen")?.value)
     const movie: Movie = {
       Titulo: this.form.value.Titulo,
       Sinopsis: this.form.value.Sinopsis,
       Image:this.Imagen,
       Actores: this.form.value.Actores,
-      Categorias: this.form.value.Categorias
+      Categorias: this._catService.listado
     }
     this.loading = true;
 
     if (this.id) {
       // Es editar 
-      
       movie._id = this.id;
       console.log(movie._id)
       this._productService.updateMovie(this.id, movie).subscribe(() => {
@@ -107,7 +130,6 @@ export class AddEditMovieComponent implements OnInit {
 
     } else {
       // Es agregagar
-      
       this._productService.saveMovie(movie).subscribe(() => {
         this.toastr.success(`La pelicula ${movie.Titulo} fue registrada con exito`, 'Pelicula registrada');
         this.loading = false;

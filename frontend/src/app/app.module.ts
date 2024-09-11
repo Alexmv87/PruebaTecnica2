@@ -15,6 +15,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ListMoviesComponent } from './components/list-movies/list-movies.component';
 import { AddEditMovieComponent } from './components/add-edit-movie/add-edit-movie.component';
 import { ProgressBarComponent } from './shared/progress-bar/progress-bar.component';
+import {CategoriaComponent} from './components/categoria/categoria.component'
 
 
 
@@ -24,7 +25,8 @@ import { ProgressBarComponent } from './shared/progress-bar/progress-bar.compone
     NavbarComponent,
     ListMoviesComponent,
     AddEditMovieComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    CategoriaComponent
     
   ],
   imports: [

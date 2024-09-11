@@ -8,16 +8,15 @@ import { Movie } from '../interfaces/movie';
   providedIn: 'root'
 })
 export class ProductService {
-  private myAppUrl: string;
-  
+  private myAppUrl: string;  
 
   constructor(private http: HttpClient) { 
-    this.myAppUrl = environment.endpoint
-    
+    this.myAppUrl = environment.endpoint    
   }
 
-  getListMovies(): Observable<Movie[]> {
-   return this.http.get<Movie[]>(`${this.myAppUrl}`);
+  getListMovies(orden:boolean): Observable<Movie[]> {
+    const ordenado = orden?'ascending':'descending'
+   return this.http.get<Movie[]>(`${this.myAppUrl}/orden/${ordenado}`);
   }
 
   deleteMovie(id: string | undefined): Observable<void> {

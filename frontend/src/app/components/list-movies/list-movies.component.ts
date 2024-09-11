@@ -11,17 +11,21 @@ import { ProductService } from 'src/app/services/movie.service';
 export class ListMoviesComponent implements OnInit {
   listMovies: Movie[] = []
   loading: boolean = false;
-
+  checked:boolean=true;
   constructor(private _productService: ProductService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getListMovies();
   }
-
+  ordenToogle(event:any){
+    console.log(event.target)
+    this.checked = !this.checked
+    this.getListMovies();
+  }
+  
   getListMovies() {
-    this.loading = true;
-
-    this._productService.getListMovies().subscribe((data: Movie[]) => {
+    this.loading = true;    
+    this._productService.getListMovies(this.checked).subscribe((data: Movie[]) => {
       this.listMovies = data;
       this.loading = false;
     })

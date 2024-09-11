@@ -1,0 +1,11 @@
+<div *ngIf="listCategorys.length > 0">
+    <div class="container">
+        <div class="row mt-2 mb-3 col-lg-6" id="Categorias">    
+            <div *ngFor="let categoria of listCategorys" class="rounded-pill mt-2 mb-3 col" >
+                <span class="badge rounded-pill bg-light">{{categoria}}
+                    <button type="button" class="btn-close" (click)="quitar($event)"></button>
+                </span>
+            </div>
+        </div>           
+    </div>       
+</div>

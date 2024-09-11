@@ -18,10 +18,23 @@
                     <span *ngIf="form.get('Actores')?.hasError('required') && form.get('Actores')?.touched">
                         El campo Actores es <strong>requerido</strong>
                     </span>
-                    <input formControlName="Categorias" type="text" class="form-control mt-2" placeholder="Ingrese Categorias">
-                    <span *ngIf="form.get('Categorias')?.hasError('required') && form.get('Categorias')?.touched">
-                        El campo categoria es <strong>requerido</strong>
-                    </span>
+                    <div class="row">
+                        <app-categoria></app-categoria>
+                    </div>
+                    <div class="row">
+                        <div class="col col-lg-2 mt-2">
+                            <button type="button" class="btn btn-primary" (click)="AgregaCategoria()">agregar</button> 
+                        </div>
+                        <div class="col col-lg-6">
+                            <input formControlName="Categorias" type="text" class="form-control mt-2" placeholder="Ingrese Categorias">
+                        </div>
+                        <span *ngIf="form.get('Categorias')?.hasError('required') && form.get('Categorias')?.touched">
+                            El campo categoria es <strong>requerido</strong>
+                        </span>
+                    </div>
+                    <div *ngIf="conIma" class="text-center mt-4">
+                        <img src="{{Imagen}}" alt="" height="200" width="200">
+                    </div>
                     <label for="formFile" class="form-label mt-4">Seleccione la imagen</label>
                     <input class="form-control" type="file" formControlName="Imagen" (change)="subirImagen($event)">
                     <span *ngIf="form.get('Imagen')?.hasError('required') && form.get('Imagen')?.touched">
@@ -32,8 +45,8 @@
                             <button routerLink="/" type="button" class="btn btn-secondary">Volver</button>
                         </div>
                         <div class="col-lg-6">
-                            <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Aceptar</button>
-                        </div>
+                            <button type="button" (click)="validar()" class="btn btn-primary">Aceptar</button>
+                        </div>                        
                     </div>
                 </form>
             </div>

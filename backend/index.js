@@ -5,8 +5,10 @@ const modelos = require('./Models/movies.js')
 const movie = modelos.movie
 const router = express.Router()
 
-router.get("/",async (req,res)=>{
-    res.send(await movie.find().sort({Titulo:'ascending'}).exec())
+router.get("/orden/:orden",async (req,res)=>{
+    const peliculas = await movie.find().sort({Titulo:req.params.orden}).exec()
+    
+    res.send(peliculas)
 })
 
 router.get("/:id",async (req,res)=>{
