@@ -14,9 +14,8 @@ export class ProductService {
     this.myAppUrl = environment.endpoint    
   }
 
-  getListMovies(orden:boolean): Observable<Movie[]> {
-    const ordenado = orden?'ascending':'descending'
-   return this.http.get<Movie[]>(`${this.myAppUrl}/orden/${ordenado}`);
+  getListMovies(): Observable<Movie[]> {    
+   return this.http.get<Movie[]>(`${this.myAppUrl}`);
   }
 
   deleteMovie(id: string | undefined): Observable<void> {

@@ -18,14 +18,12 @@ export class ListMoviesComponent implements OnInit {
     this.getListMovies();
   }
   ordenToogle(event:any){
-    console.log(event.target)
-    this.checked = !this.checked
-    this.getListMovies();
+    this.listMovies = this.listMovies.reverse()
   }
   
   getListMovies() {
     this.loading = true;    
-    this._productService.getListMovies(this.checked).subscribe((data: Movie[]) => {
+    this._productService.getListMovies().subscribe((data: Movie[]) => {
       this.listMovies = data;
       this.loading = false;
     })
